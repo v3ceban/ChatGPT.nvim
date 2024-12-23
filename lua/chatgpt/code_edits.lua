@@ -50,7 +50,7 @@ local build_edit_messages = function(input, instructions, use_functions_for_edit
   end
   local messages = {
     {
-      role = "developer",
+      role = "system",
       content = system_message_content,
     },
     {
