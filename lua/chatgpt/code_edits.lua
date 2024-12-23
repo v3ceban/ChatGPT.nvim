@@ -18,7 +18,8 @@ EDIT_FUNCTION_ARGUMENTS = {
   functions = {
     {
       name = "apply_code_changes",
-      description = "Apply changes to the provided code based on the provided instructions, and briefly describe the edits.",
+      description =
+      "Apply changes to the provided code based on the provided instructions, and briefly describe the edits.",
       parameters = {
         type = "object",
         properties = {
@@ -42,14 +43,14 @@ local build_edit_messages = function(input, instructions, use_functions_for_edit
   local system_message_content
   if use_functions_for_edits then
     system_message_content =
-      "Apply the changes requested by the user to the code. Output ONLY the changed code and a brief description of the edits. DO NOT wrap the code in a formatting block. DO NOT provide other text or explanation."
+    "Apply the changes requested by the user to the code. Output ONLY the changed code and a brief description of the edits. DO NOT wrap the code in a formatting block. DO NOT provide other text or explanation."
   else
     system_message_content =
-      "Apply the changes requested by the user to the code. Output ONLY the changed code. DO NOT wrap the code in a formatting block. DO NOT provide other text or explanation."
+    "Apply the changes requested by the user to the code. Output ONLY the changed code. DO NOT wrap the code in a formatting block. DO NOT provide other text or explanation."
   end
   local messages = {
     {
-      role = "system",
+      role = "developer",
       content = system_message_content,
     },
     {
@@ -79,10 +80,10 @@ local display_input_suffix = function(suffix)
 
   extmark_id = vim.api.nvim_buf_set_extmark(instructions_input.bufnr, namespace_id, 0, -1, {
     virt_text = {
-      { Config.options.chat.border_left_sign, "ChatGPTTotalTokensBorder" },
-      { "" .. suffix, "ChatGPTTotalTokens" },
+      { Config.options.chat.border_left_sign,  "ChatGPTTotalTokensBorder" },
+      { "" .. suffix,                          "ChatGPTTotalTokens" },
       { Config.options.chat.border_right_sign, "ChatGPTTotalTokensBorder" },
-      { " ", "" },
+      { " ",                                   "" },
     },
     virt_text_pos = "right_align",
   })
@@ -153,8 +154,8 @@ M.edit_with_instructions = function(output_lines, bufnr, selection, ...)
   local use_functions_for_edits = Config.options.use_openai_functions_for_edits
   local settings_panel = Settings.get_settings_panel("edits", openai_params)
   local help_panel = Help.get_help_panel("edit") -- I like the highlighting for Lua.
-  local open_extra_panels = {} -- tracks which extra panels are open
-  local active_panel = instructions_input -- for cycling windows
+  local open_extra_panels = {}                   -- tracks which extra panels are open
+  local active_panel = instructions_input        -- for cycling windows
   input_window = Popup(Config.options.popup_window)
   output_window = Popup(Config.options.popup_window)
   instructions_input = ChatInput(Config.options.popup_input, {
