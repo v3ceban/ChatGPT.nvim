@@ -110,6 +110,14 @@ function Api.edits(custom_params, cb)
     return
   end
 
+  if params.model == "o1" or params.model == "o1-mini" then
+    for _, message in ipairs(params.messages) do
+      if message.role == "system" then
+        message.role = "developer"
+      end
+    end
+  end
+
   Api.make_call(Api.CHAT_COMPLETIONS_URL, params, cb)
 end
 
