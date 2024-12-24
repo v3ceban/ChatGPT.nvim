@@ -110,10 +110,16 @@ function Api.edits(custom_params, cb)
     return
   end
 
-  if params.model == "o1" or params.model == "o1-mini" then
+  if params.model == "o1-preview" or params.model == "o1-mini" then
+    -- max_tokens is unsupported for o1 OpenAI models; older models are backward-compatible with max_tokens,
+    -- but max_completion_tokens works with all models.
+    params.max_completion_tokens = params.max_tokens
+    params.max_tokens = nil
+    -- o1 models changed "system" message role to "developer", however, current API
+    -- only accepts "user" or "assistant". this will probably be fixed in the future.
     for _, message in ipairs(params.messages) do
       if message.role == "system" then
-        message.role = "developer"
+        message.role = "user"
       end
     end
   end
